@@ -639,9 +639,8 @@ window.addEventListener('blur', function () {
 
 });
 
-if (direcao.length() > 0) {
-    personagem.rotation.y = Math.atan2(direcao.x, direcao.z);
-}
+
+
 
 
 // ==================================================

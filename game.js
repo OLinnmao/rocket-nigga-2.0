@@ -196,7 +196,6 @@ chao.receiveShadow = true;
 
 cena.add(chao);
 
-
 // ==================================================
 // 8. CRIAR ÁRVORES
 // ==================================================
@@ -376,7 +375,6 @@ for (let i = 0; i < 25; i++) {
     criarPedra(x, z);
 
 }
-
 
 // ==================================================
 // 10. CRIAR O PERSONAGEM
@@ -577,7 +575,6 @@ carregador.load(
 
 );
 
-
 // ==================================================
 // 11. CONTROLES DO TECLADO
 // ==================================================
@@ -641,6 +638,10 @@ window.addEventListener('blur', function () {
     }
 
 });
+
+if (direcao.length() > 0) {
+    personagem.rotation.y = Math.atan2(direcao.x, direcao.z);
+}
 
 
 // ==================================================

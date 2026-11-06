@@ -200,181 +200,13 @@ cena.add(chao);
 // 8. CRIAR ÁRVORES
 // ==================================================
 
-function criarArvore(x, z) {
-
-    // Tronco
-
-    const geometriaTronco = new THREE.CylinderGeometry(
-
-        0.2,
-
-        0.3,
-
-        1.5,
-
-        8
-
-    );
-
-    const materialTronco = new THREE.MeshStandardMaterial({
-
-        color: 0x795548
-
-    });
-
-    const tronco = new THREE.Mesh(
-
-        geometriaTronco,
-
-        materialTronco
-
-    );
-
-    tronco.position.set(
-
-        x,
-
-        0.75,
-
-        z
-
-    );
-
-    tronco.castShadow = true;
-
-    tronco.receiveShadow = true;
-
-    cena.add(tronco);
-
-
-    // Copa da árvore
-
-    const geometriaCopa = new THREE.ConeGeometry(
-
-        1.2,
-
-        2.5,
-
-        8
-
-    );
-
-    const materialCopa = new THREE.MeshStandardMaterial({
-
-        color: 0x2e7d32
-
-    });
-
-    const copa = new THREE.Mesh(
-
-        geometriaCopa,
-
-        materialCopa
-
-    );
-
-    copa.position.set(
-
-        x,
-
-        2.5,
-
-        z
-
-    );
-
-    copa.castShadow = true;
-
-    cena.add(copa);
-
-}
-
-
-// Criar árvores nas bordas do cenário
-
-for (let i = -40; i <= 40; i += 10) {
-
-    criarArvore(i, -35);
-
-    criarArvore(i, 35);
-
-    criarArvore(-35, i);
-
-    criarArvore(35, i);
-
-}
 
 
 // ==================================================
 // 9. CRIAR PEDRAS DECORATIVAS
 // ==================================================
 
-function criarPedra(x, z) {
 
-    const geometria = new THREE.DodecahedronGeometry(
-
-        0.5,
-
-        0
-
-    );
-
-    const material = new THREE.MeshStandardMaterial({
-
-        color: 0x808080,
-
-        roughness: 1
-
-    });
-
-    const pedra = new THREE.Mesh(
-
-        geometria,
-
-        material
-
-    );
-
-    pedra.position.set(
-
-        x,
-
-        0.3,
-
-        z
-
-    );
-
-    pedra.rotation.set(
-
-        Math.random(),
-
-        Math.random(),
-
-        Math.random()
-
-    );
-
-    pedra.castShadow = true;
-
-    pedra.receiveShadow = true;
-
-    cena.add(pedra);
-
-}
-
-
-// Distribuir pedras pelo campo
-
-for (let i = 0; i < 25; i++) {
-
-    const x = Math.random() * 50 - 25;
-
-    const z = Math.random() * 50 - 25;
-
-    criarPedra(x, z);
-
-}
 
 // ==================================================
 // 10. CRIAR O PERSONAGEM
@@ -573,6 +405,135 @@ carregador.load(
 
     }
 
+);
+
+
+// ==================================================
+// FUNÇÃO PARA CARREGAR MODELOS GLB
+// ==================================================
+
+
+function carregarModelo(
+    arquivo,
+    grupo,
+    x,
+    y,
+    z,
+    escala
+) {
+
+
+    // Carregar o arquivo GLB
+    carregador.load(
+
+
+        arquivo,
+
+
+        // Quando o modelo terminar de carregar
+        function (gltf) {
+
+
+            const modelo = gltf.scene;
+
+
+            // Definir a posição
+            modelo.position.set(x, y, z);
+
+
+            // Definir a escala
+            modelo.scale.setScalar(escala);
+
+
+            // Configurar sombras
+            modelo.traverse(function (objeto) {
+
+
+                if (objeto.isMesh) {
+
+
+                    objeto.castShadow = true;
+
+
+                    objeto.receiveShadow = true;
+
+
+                }
+
+
+            });
+
+
+            // Adicionar o modelo ao grupo escolhido
+            grupo.add(modelo);
+
+
+            console.log(
+                'Modelo carregado:',
+                arquivo
+            );
+
+
+        },
+
+
+        // Acompanhar o progresso do carregamento
+        function (progresso) {
+
+
+            if (progresso.total > 0) {
+
+
+                const porcentagem = Math.round(
+                    progresso.loaded /
+                    progresso.total * 100
+                );
+
+
+                console.log(
+                    `Carregando ${arquivo}: ${porcentagem}%`
+                );
+
+
+            }
+
+
+        },
+
+
+        // Tratar erros
+        function (erro) {
+
+
+            console.error(
+                'Erro ao carregar:',
+                arquivo,
+                erro
+            );
+
+
+        }
+
+
+    );
+
+
+}
+
+// Grupo que organizará o cenário
+const grupoCenario = new THREE.Group();
+
+
+// Adicionar o grupo à cena
+cena.add(grupoCenario);
+
+
+// Carregar o cenário
+carregarModelo(
+    './assets/barril.glb',
+    grupoCenario,
+    10, 0, 0,
+    5
 );
 
 // ==================================================

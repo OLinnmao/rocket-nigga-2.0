@@ -530,7 +530,7 @@ cena.add(grupoCenario);
 
 // Carregar o cenário
 carregarModelo(
-    './assets/barril.glb',
+    './assets/ball.glb',
     grupoCenario,
     10, 0, 0,
     5
@@ -849,6 +849,7 @@ function animar() {
     );
 
 }
+
 
 
 // Iniciar o jogo

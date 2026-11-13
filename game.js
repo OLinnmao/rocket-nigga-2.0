@@ -250,7 +250,7 @@ carregador.setDRACOLoader(dracoLoader);
 
 carregador.load(
 
-    './assets/personagem.glb',
+    './assets/FENNEC.glb',
     
 
     function (gltf) {
@@ -532,8 +532,8 @@ cena.add(grupoCenario);
 carregarModelo(
     './assets/ball.glb',
     grupoCenario,
-    10, 0, 0,
-    5
+    0, 1, 1,
+    1
 );
 
 // ==================================================
